@@ -15,6 +15,12 @@ use Symfony\Component\Form\Extension\Core\Type\FormType;
 class GoogleMapType extends AbstractType
 {
 
+    private $api_key;
+
+    public function __construct($api_key){
+        $this->api_key = $api_key;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -32,6 +38,7 @@ class GoogleMapType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
+            'api_key'        => $this->api_key,
             'type'           => 'text',  // the types to render the lat and lng fields as
             'options'        => array(), // the options for both the fields
             'lat_options'  => array(),   // the options for just the lat field
@@ -53,7 +60,8 @@ class GoogleMapType extends AbstractType
      */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
-            $view->vars['lat_name'] = $options['lat_name']; 
+            $view->vars['api_key'] = $options['api_key'];
+            $view->vars['lat_name'] = $options['lat_name'];
             $view->vars['lng_name'] = $options['lng_name']; 
             $view->vars['map_width'] = $options['map_width']; 
             $view->vars['map_height'] = $options['map_height']; 
